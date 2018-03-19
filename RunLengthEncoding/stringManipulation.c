@@ -1,0 +1,306 @@
+#include<string.h>
+#include<stdio.h>
+//#define COMMENT 1
+//#define MAIN 1
+#define CASE 32
+#include<stdlib.h>
+char toUpper(char ch)
+{
+	if(ch >= 'a' && ch <= 'z')
+	{
+		ch = ch - CASE;
+	}
+	return ch;
+}
+int string_length(char* str)
+{
+	if(!str)
+	{
+		printf("NULL Pointer Error!!\n");
+		return -1;
+	}
+	int length = 0;
+	while(str[length] != '\0')
+	{
+		length++;
+	}
+	return length;
+}
+
+void stringCopy(char* str1,char* str2)
+{
+#ifdef COMMENT
+	printf("\nBefore Copy: %s %s\n",str1,str2);
+#endif
+
+	if(!str1 || !str2)
+	{
+		printf("NULL Pointer Error!!\n");
+		return;
+	}
+	int i=0;
+	do
+	{
+		str2[i] = str1[i];
+	}while(str1[i++] != '\0');
+
+#ifdef COMMENT
+	printf("\nString Copy:%s %s\n",str1,str2);
+#endif
+
+
+}
+void toUpperCase(char* str)
+{
+#ifdef COMMENT
+	printf("\nBefore Upper:%s\n",str);
+#endif
+	if(!str)
+	{
+		printf("NULL Pointer Error!!\n");
+		return;
+	}
+	int i,strlength = string_length(str);
+        for(i=0;i<strlength;i++)
+	{
+		if(str[i] >= 'a' && str[i] <= 'z')
+		{
+			str[i] = str[i] - CASE;
+		}
+	}
+#ifdef COMMENT
+	printf("\nAfter Upper:%s\n",str);
+#endif
+}
+
+
+int string_to_number(char* str)
+{
+	if(!str)
+	{
+		printf("NULL Pointer Error!!\n");
+		return 0;
+	}
+	if(string_length(str) == 0)
+	{
+	return 1;
+	}
+	if(string_length(str) == 1)
+	{
+		if(str[0] == '+')
+		{
+			return 1;
+		}
+		else if(str[0] == '-')
+		{
+			return -1;
+		}
+	}
+	int index = 0,number = 0,flag = 0;
+	if(str[0] == '-' || str[0] == '+')
+	{
+		index = 1;
+		if(str[0] == '-')
+		{
+			flag = 1;
+		}
+	}
+
+	while(str[index] !='\0')
+	{
+		number = (number*10) + (str[index]-48);
+		index++;
+	}
+
+	if(flag)
+	{
+		number *= -1;
+	}
+
+	return number;
+
+}
+
+int stringCompareCase(char *str1,char * str2)
+{
+	if(!str1 || !str2)
+	{
+		printf("NULL Pointer Error!!\n");
+		return -1;
+	}
+	int i = 0;
+	while(*(str1+i) != '\0' && *(str2+i) != '\0')
+	{
+		if(*(str1+i) < *(str2+i))
+		{
+			return -1;
+		}
+		else if(*(str1+i) > *(str2+i))
+		{
+			return 1;
+		}
+		i++;
+	}
+	if(string_length(str1) < string_length(str2))
+	{
+		return -1;
+	}
+	else if(string_length(str1) > string_length(str2))
+	{
+		return 1;
+	}
+	return 0;
+}
+
+
+
+int stringCompare(char *str1,char* str2)
+{
+	if(!str1 || !str2)
+	{
+		printf("NULL Pointer Error!!\n");
+		return -1;
+	}
+
+	int index,minlength,s1length = string_length(str1),s2length = string_length(str2);
+	char *s1,*s2;
+	s1 = (char*)malloc(s1length);
+	s2 = (char*)malloc(s2length);
+	stringCopy(str1,s1);
+	stringCopy(str2,s2);
+	toUpperCase(s1);
+	toUpperCase(s2);
+	if(!(s1length == s2length))
+	{
+		if(s1length>s2length)
+		{
+			minlength = s2length;
+		}
+		else
+		{
+			minlength = s1length;
+		}
+	}
+	else
+	{
+		minlength = s1length;
+	}
+	for(index = 0;index <= minlength;index++)
+	{
+		if(*(s1+index) > *(s2+index))
+		{
+			free(s1);
+			s1 = NULL;
+			free(s2);
+			s2 = NULL;
+			return 1;
+		}
+		if(*(s1+index) < *(s2+index))
+		{
+		       	free(s1);
+			s1 = NULL;
+                        free(s2);
+			s2 = NULL;
+			return -1;
+		}
+	}
+	free(s1);
+	free(s2);
+	s1 = NULL;
+	s2 = NULL;
+
+	return 0;
+}
+
+void stringReverse(char* str)
+{
+	if(!str)
+	{
+		printf("NULL Pointer Error!!\n");
+		return;
+	}
+	int i = 0,n = string_length(str);
+	char ch;
+	while(i < (n/2))
+	{
+		ch = *(str+i);
+		*(str+i) = *(str-i-1+n);
+		*(str-i-1+n) = ch;
+		i++;
+	}
+}
+
+void numberToString(int num,char* str)
+{
+	if(!str)
+	{
+		printf("NULL Pointer Error!!\n");
+		return;
+	}
+
+	int rem,i=0;
+	do
+	{
+		rem = num % 10;
+		*(str+i) = (char)(rem +48);
+#ifdef COMMENT
+		printf("%c",(rem+48));
+#endif
+		i++;
+		num = num/10;
+	}while(num != 0);
+	*(str+i) = '\0';
+#ifdef COMMENT
+	printf("\nNTS:%s\n",str);
+#endif
+	stringReverse(str);
+}
+
+
+void append(char* des,char* src)
+{
+	if(!src)
+	{
+		printf("Source string in Append function is NULL");
+		return;
+	}
+	if(!des)
+	{
+		des = (char*)malloc(string_length(src));
+		*des = '\0';
+	}
+	int i,n1 = string_length(des),n2 = string_length(src);
+	for(i = n1;i<(n1+n2);i++)
+	{
+		*(des+i) = *(src+i-n1);
+	}
+	*(des+i) = '\0';
+}
+
+#ifdef MAIN
+int main()
+{
+
+	int a = 8567856;
+	char *me,*dad;
+	me = (char*)malloc(6);
+	dad = (char*)malloc(50);
+//	printf("%s\n",s);
+//	numberToString(a,s);
+	scanf("%s %s",me,dad);
+	printf("me:%s dad:%s\n",me,dad);
+/*	append(me,dad);
+
+
+	printf("me:%s\n",me);
+*/	printf("%d\n",strlen(me));
+	char *s = (char*)malloc(10);
+	char *str = "ffffffffffffffffffffffff";
+	printf("STRCMP: %s %s %s\n",strcpy(me,dad),me,dad);
+	printf("%d\n",strlen(me));
+	return 0;
+
+}
+
+
+#endif
