@@ -1,0 +1,2 @@
+Message[302] /home/econsys4/MPLABXProjects/PICProgram1.X/XOR_AND.asm 194 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/econsys4/MPLABXProjects/PICProgram1.X/XOR_AND.asm 196 : Register in operand not in bank 0.  Ensure that bank bits are correct.
