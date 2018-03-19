@@ -1,0 +1,37 @@
+
+        if(adj1->red > adj2->red)
+        {
+                op = adj1->red - adj2->red;
+                value = (op/k) + adj2->red;
+        }
+        else
+        {
+                op = adj2->red - adj1->red;
+                value = (op/k) + adj1->red;
+
+        }
+        for(i=0;i<k-1;i++)
+        {
+                *(str+i) = value;
+                value += op;
+        }
+        if(adj1->red > adj2->red)
+        {
+                stringReverse(str,k-1);
+        }
+        if(flag)
+        {
+                for(i=1;i<k;i++)
+                {
+                        (*(zoom+row)+col+i)->red = *(str+i-1);
+                }
+        }
+        else
+        {
+                for(i=1;i<k;i++)
+                {
+                        (*(zoom+row+i)+col)->red = *(str+i-1);
+                }
+        }
+
+
