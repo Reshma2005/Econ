@@ -1,0 +1,11 @@
+avr-gcc -mmcu=atmega32 led.c -o led.out
+
+to get hex source file from compiled file:
+avr-objcopy -O ihex led.out led.hex
+
+To send that file to device by writing in console:
+
+sudo avrdude -p m32 -c avrispmkII -U flash:w:led.hex -F -P usb
+
+8Mh internal RC Oscillator start time: 6ck +64ms:
+-U lfuse:w:0xe4:m -U hfuse:w:0x99:m 
